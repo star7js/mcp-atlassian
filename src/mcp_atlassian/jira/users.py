@@ -2,9 +2,8 @@
 
 import logging
 
-import requests
-
 from .client import JiraClient
+from security import safe_requests
 
 logger = logging.getLogger("mcp-jira")
 
@@ -149,7 +148,7 @@ class UsersMixin(JiraClient):
             else:
                 auth = (self.config.username or "", self.config.api_token or "")
 
-            response = requests.get(
+            response = safe_requests.get(
                 url,
                 params=params,
                 auth=auth,
