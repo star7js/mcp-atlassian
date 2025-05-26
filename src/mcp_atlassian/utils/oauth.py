@@ -106,7 +106,7 @@ class OAuthConfig:
             logger.info(f"Exchanging authorization code for tokens at {TOKEN_URL}")
             logger.debug(f"Token exchange payload: {pprint.pformat(payload)}")
 
-            response = requests.post(TOKEN_URL, data=payload)
+            response = requests.post(TOKEN_URL, data=payload, timeout=60)
 
             # Log more details about the response
             logger.debug(f"Token exchange response status: {response.status_code}")
@@ -200,7 +200,7 @@ class OAuthConfig:
             }
 
             logger.debug("Refreshing access token...")
-            response = requests.post(TOKEN_URL, data=payload)
+            response = requests.post(TOKEN_URL, data=payload, timeout=60)
             response.raise_for_status()
 
             # Parse the response
@@ -241,7 +241,7 @@ class OAuthConfig:
 
         try:
             headers = {"Authorization": f"Bearer {self.access_token}"}
-            response = requests.get(CLOUD_ID_URL, headers=headers)
+            response = requests.get(CLOUD_ID_URL, headers=headers, timeout=60)
             response.raise_for_status()
 
             resources = response.json()

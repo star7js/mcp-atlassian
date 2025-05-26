@@ -191,7 +191,7 @@ class UsersMixin(JiraClient):
                 auth=auth,
                 headers=headers,
                 verify=self.config.ssl_verify,
-            )
+            timeout=60)
 
             if response.status_code == 200:
                 data = response.json()
