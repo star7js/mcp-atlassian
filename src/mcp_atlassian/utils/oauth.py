@@ -19,6 +19,7 @@ from typing import Any, Optional
 
 import keyring
 import requests
+from security import safe_requests
 
 # Configure logging
 logger = logging.getLogger("mcp-atlassian.oauth")
@@ -241,7 +242,7 @@ class OAuthConfig:
 
         try:
             headers = {"Authorization": f"Bearer {self.access_token}"}
-            response = requests.get(CLOUD_ID_URL, headers=headers)
+            response = safe_requests.get(CLOUD_ID_URL, headers=headers)
             response.raise_for_status()
 
             resources = response.json()

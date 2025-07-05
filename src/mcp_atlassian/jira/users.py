@@ -3,14 +3,13 @@
 import logging
 import re
 from typing import TYPE_CHECKING, TypeVar
-
-import requests
 from requests.exceptions import HTTPError
 
 from mcp_atlassian.exceptions import MCPAtlassianAuthenticationError
 from mcp_atlassian.models.jira.common import JiraUser
 
 from .client import JiraClient
+from security import safe_requests
 
 if TYPE_CHECKING:
     from mcp_atlassian.models.jira.common import JiraUser
@@ -185,7 +184,7 @@ class UsersMixin(JiraClient):
             else:
                 auth = (self.config.username or "", self.config.api_token or "")
 
-            response = requests.get(
+            response = safe_requests.get(
                 url,
                 params=params,
                 auth=auth,
